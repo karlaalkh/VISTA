@@ -39,6 +39,11 @@ kotlin {
 }
 
 dependencies {
+    implementation(libs.androidx.compose.animation.core)
+    implementation("androidx.core:core-splashscreen:1.2.0")
+    implementation("androidx.datastore:datastore-preferences:1.3.0")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.androidx.compose.runtime.saveable)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)

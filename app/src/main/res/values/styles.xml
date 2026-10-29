@@ -1,0 +1,22 @@
+<resources>
+    <style name="Theme.Voya" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">
+            #07111C
+        </item>
+
+        <item name="windowSplashScreenAnimatedIcon">
+            @drawable/ic_voya_foreground
+        </item>
+
+        <item name="postSplashScreenTheme">
+            @style/Theme.Voya.Main
+        </item>
+    </style>
+
+    <style name="Theme.Voya.Main"
+        parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">#07111C</item>
+        <item name="android:navigationBarColor">#07111C</item>
+    </style>
+</resources>

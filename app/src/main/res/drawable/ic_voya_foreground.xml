@@ -1,0 +1,39 @@
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Gold eye outline -->
+    <path
+        android:pathData="M20,54 C38,29 70,29 88,54 C70,79 38,79 20,54 Z"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#E5C78E"
+        android:strokeWidth="2.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+
+    <!-- Blue iris -->
+    <path
+        android:pathData="M54,37 A17,17 0,1 1,54 71 A17,17 0,1 1,54 37"
+        android:fillColor="#142A3D"
+        android:strokeColor="#76A9F8"
+        android:strokeWidth="2.5"/>
+
+    <!-- Dark pupil -->
+    <path
+        android:pathData="M54,45 A9,9 0,1 1,54 63 A9,9 0,1 1,54 45"
+        android:fillColor="#07111C"/>
+
+    <!-- Warm reflection -->
+    <path
+        android:pathData="M59,46 A4,4 0,1 1,59 54 A4,4 0,1 1,59 46"
+        android:fillColor="#E5C78E"/>
+
+    <!-- Small highlight -->
+    <path
+        android:pathData="M48,45 A2,2 0,1 1,48 49 A2,2 0,1 1,48 45"
+        android:fillColor="#FFFFFF"/>
+
+</vector>
