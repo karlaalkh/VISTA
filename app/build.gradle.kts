@@ -5,23 +5,23 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-val localVoyaProperties = Properties().apply {
+val localVistaProperties = Properties().apply {
     val propertiesFile = rootProject.file("local.properties")
     if (propertiesFile.exists()) propertiesFile.inputStream().use { load(it) }
 }
 
 android {
-    namespace = "com.example.voya"
+    namespace = "com.example.vista"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.voya"
+        applicationId = "com.example.vista"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-        val dialogueUrl = providers.gradleProperty("VOYA_DIALOGUE_URL")
-            .getOrElse(localVoyaProperties.getProperty("voya.dialogueUrl", "http://10.0.2.2:8787"))
+        val dialogueUrl = providers.gradleProperty("VISTA_DIALOGUE_URL")
+            .getOrElse(localVistaProperties.getProperty("vista.dialogueUrl", "http://10.0.2.2:8787"))
         buildConfigField("String", "DIALOGUE_URL", "\"${dialogueUrl.replace("\\", "\\\\").replace("\"", "\\\"")}\"")
     }
 

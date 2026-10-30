@@ -1,4 +1,4 @@
-package com.voya.ui.screens
+package com.vista.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,9 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-import com.voya.ui.components.AnimatedEmpathyLens
-import com.voya.ui.theme.VoyaColors
-import com.voya.ui.theme.VoyaTheme
+import com.vista.ui.components.AnimatedEmpathyLens
+import com.vista.ui.theme.VistaColors
+import com.vista.ui.theme.VistaTheme
 
 @Composable
 fun WelcomeScreen(
@@ -26,9 +26,9 @@ fun WelcomeScreen(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        VoyaColors.Background,
-                        VoyaColors.MidnightBlue,
-                        VoyaColors.Background,
+                        VistaColors.Background,
+                        VistaColors.MidnightBlue,
+                        VistaColors.Background,
                         Color.Black
                     )
                 )
@@ -41,7 +41,7 @@ fun WelcomeScreen(
                 .background(
                     Brush.radialGradient(
                         listOf(
-                            VoyaColors.VoiceBlue.copy(alpha = 0.25f),
+                            VistaColors.VoiceBlue.copy(alpha = 0.25f),
                             Color.Transparent
                         )
                     )
@@ -68,7 +68,7 @@ fun WelcomeScreen(
             Spacer(Modifier.height(20.dp))
 
             Text(
-                text = "V O Y A",
+                text = "V I S T A",
                 style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -78,7 +78,7 @@ fun WelcomeScreen(
             Text(
                 text = "Your voice. Your story.",
                 style = MaterialTheme.typography.bodyLarge,
-                color = VoyaColors.TextSecondary
+                color = VistaColors.TextSecondary
             )
 
             Spacer(Modifier.weight(1f))
@@ -96,7 +96,7 @@ fun WelcomeScreen(
                 text = "An interactive audio experience\n" +
                         "where your words change everything.",
                 style = MaterialTheme.typography.bodyMedium,
-                color = VoyaColors.TextSecondary,
+                color = VistaColors.TextSecondary,
                 textAlign = TextAlign.Center
             )
 
@@ -123,7 +123,7 @@ fun WelcomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun WelcomeScreenPreview() {
-    VoyaTheme {
+    VistaTheme {
         WelcomeScreen(onStartPlaying = {})
     }
 }

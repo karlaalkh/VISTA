@@ -24,7 +24,7 @@ def resolve(node, key, suspicion=20, **slots):
 
 class DialogueTests(unittest.TestCase):
     def setUp(self):
-        provider = patch.dict(app.os.environ, {"VOYA_AI_PROVIDER": "openai"})
+        provider = patch.dict(app.os.environ, {"VISTA_AI_PROVIDER": "openai"})
         provider.start()
         self.addCleanup(provider.stop)
         narrator = patch.object(app, "speak_narrator", return_value=b"test-narrator-mp3")
@@ -203,7 +203,7 @@ class DialogueTests(unittest.TestCase):
 class GeminiTests(unittest.TestCase):
     def setUp(self):
         env = patch.dict(app.os.environ, {"GEMINI_API_KEY": "test-gemini-key",
-                         "VOYA_AI_PROVIDER": "gemini"}, clear=True)
+                         "VISTA_AI_PROVIDER": "gemini"}, clear=True)
         env.start()
         self.addCleanup(env.stop)
         narrator = patch.object(app, "speak_narrator", return_value=b"test-narrator-mp3")
@@ -220,11 +220,11 @@ class GeminiTests(unittest.TestCase):
             "parts": [{"text": json.dumps(result)}]}}]}).encode()
 
     def test_provider_auto_selection_and_explicit_override(self):
-        with patch.dict(app.os.environ, {"VOYA_AI_PROVIDER": "", "OPENAI_API_KEY": "old-key"}):
+        with patch.dict(app.os.environ, {"VISTA_AI_PROVIDER": "", "OPENAI_API_KEY": "old-key"}):
             self.assertEqual("gemini", app.ai_provider())
-        with patch.dict(app.os.environ, {"VOYA_AI_PROVIDER": "openai"}):
+        with patch.dict(app.os.environ, {"VISTA_AI_PROVIDER": "openai"}):
             self.assertEqual("openai", app.ai_provider())
-        with patch.dict(app.os.environ, {"VOYA_AI_PROVIDER": "unsupported"}):
+        with patch.dict(app.os.environ, {"VISTA_AI_PROVIDER": "unsupported"}):
             with self.assertRaises(app.ProviderError):
                 app.ai_provider()
 
@@ -379,7 +379,7 @@ class DroneTests(unittest.TestCase):
         app.cached_drone_voice.cache_clear()
         self.addCleanup(app.cached_drone_voice.cache_clear)
         env = {"ELEVENLABS_API_KEY":"test-key", "ELEVENLABS_VOICE_ID":"mercer-test",
-               "ELEVENLABS_DRONE_VOICE_ID":"drone-test", "VOYA_SPEECH_MODEL":"eleven_v3"}
+               "ELEVENLABS_DRONE_VOICE_ID":"drone-test", "VISTA_SPEECH_MODEL":"eleven_v3"}
         with patch.dict(app.os.environ, env, clear=True), patch.object(app, "request_bytes", return_value=b"\x00\x01" * 100) as api:
             result = app.speak_drone("Test report.")
             self.assertEqual(result, app.speak_drone("Test report."))
@@ -475,7 +475,7 @@ class ConfrontationTests(unittest.TestCase):
 
     def test_retry_does_not_double_count_a_lie(self):
         payload = {"dialogueId":Q3, "detectedLieCount":1, "audioBase64":base64.b64encode(b"m4a").decode()}
-        with patch.dict(app.os.environ, {"VOYA_AI_PROVIDER":"gemini"}), \
+        with patch.dict(app.os.environ, {"VISTA_AI_PROVIDER":"gemini"}), \
                 patch.object(app, "gemini_answer", return_value=("Yesterday.", {"key":"OTHER_TIME", "confidence":1, "reply":"Enough."})), \
                 patch.object(app, "speak_drone", return_value=b"drone"), \
                 patch.object(app, "speak_narrator", return_value=b"narrator"), \
@@ -490,6 +490,48 @@ class ConfrontationTests(unittest.TestCase):
 
 
 class StationEndingTests(unittest.TestCase):
+    def test_final_answer_reactions_follow_the_selected_json_option(self):
+        node = app.DIALOGUES[Q4]
+        for option in node["Options"]:
+            with self.subTest(key=option["Key"]):
+                result = resolve(Q4, option["Key"])
+                segments = app.directed_segments(node, result)
+                self.assertTrue(result["reaction"].startswith(option["Reaction"]))
+                self.assertIn(option["Reaction"], result["reply"])
+                self.assertIn(option["Reaction"], " ".join(s["text"] for s in segments))
+        self.assertNotEqual(resolve(Q4, "EXPLAIN_INNOCENT")["reaction"],
+                            resolve(Q4, "WARNING_MISTRUST")["reaction"])
+        workshop = resolve(Q4, "WORKSHOP_LOCATION_MENTION")
+        self.assertEqual("StartDialogue", workshop["nextAction"])
+        self.assertTrue(workshop["reply"].endswith("Where is this workshop?"))
+
+    def test_json_reaction_edits_reach_spoken_final_reply(self):
+        node = app.DIALOGUES[Q4]
+        option = next(o for o in node["Options"] if o["Key"] == "EXPLAIN_INNOCENT")
+        with patch.dict(option, {"Reaction": "Then let him explain it himself."}), \
+                patch.dict(app.os.environ, {"VISTA_AI_PROVIDER": "gemini"}), \
+                patch.object(app, "gemini_answer", return_value=("He is innocent.",
+                    {"key": "EXPLAIN_INNOCENT", "confidence": 1, "reply": "You can go."})), \
+                patch.object(app, "speak_narrator", return_value=b"narrator"), \
+                patch.object(app, "speak", return_value=b"mercer") as speech:
+            result = app.turn({"dialogueId": Q4, "audioBase64": base64.b64encode(b"m4a").decode()})
+        self.assertTrue(result["segments"][0]["text"].startswith("Then let him explain it himself."))
+        self.assertTrue(any("Then let him explain it himself." in c.args[0] for c in speech.call_args_list))
+        self.assertNotIn("You can go", result["reply"])
+        self.assertEqual("TakeToStation", result["nextAction"])
+
+    def test_silence_and_uncertain_classification_use_authored_fallback_reaction(self):
+        node = app.DIALOGUES[Q4]
+        for transcript, confidence in [("", 1), ("unclear", 0.1)]:
+            result = app.resolve(node, {"key": "NO_INPUT", "confidence": confidence,
+                                       "reply": "You can go."}, 20, transcript)
+            self.assertTrue(result["reaction"].startswith("Silence again."))
+            self.assertNotIn("You can go", result["reply"])
+        node = app.DIALOGUES["Q6_wo_befindet_sich_diese_werkstatt"]
+        result = app.resolve(node, {"key": "WORKSHOP_LOCATION_ANY", "confidence": 1}, 20, "")
+        self.assertTrue(result["reaction"].startswith(node["Options"][0]["Reaction"]))
+        self.assertEqual("TakeToStation", result["nextAction"])
+
     def test_normal_police_endings_transfer_maya_instead_of_releasing_her(self):
         for node_id in [Q4, "Q6_wo_befindet_sich_diese_werkstatt"]:
             node = app.DIALOGUES[node_id]

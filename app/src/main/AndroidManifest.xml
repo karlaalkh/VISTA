@@ -8,12 +8,12 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Voya">
+        android:theme="@style/Theme.Vista">
 
         <activity
-            android:name="com.voya.MainActivity"
+            android:name="com.vista.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Voya">
+            android:theme="@style/Theme.Vista">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

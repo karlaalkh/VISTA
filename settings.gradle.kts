@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "VOYA"
+rootProject.name = "VISTA"
 include(":app")

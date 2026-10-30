@@ -1,8 +1,8 @@
-package com.voya.ui.theme
+package com.vista.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-object VoyaColors {
+object VistaColors {
     val Background = Color(0xFF07111C)
     val MidnightBlue = Color(0xFF142A3D)
     val Surface = Color(0xFF101E2B)

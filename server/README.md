@@ -1,16 +1,16 @@
-# VOYA English AI dialogue
+# VISTA English AI dialogue
 
 The Android player speaks **as Maya**. Gemini or OpenAI interprets the recording and selects an allowed response category. The server applies the authored branch and suspicion changes, writes a short English reaction, and asks ElevenLabs to voice Mercer. Credentials stay on this server.
 
 ## Run locally
 
-You can store configuration in a **`.env` file in the VOYA project root**, next to `README.md`. The server loads that exact file at startup, regardless of the terminal's current directory. No extra Python packages are needed.
+You can store configuration in a **`.env` file in the VISTA project root**, next to `README.md`. The server loads that exact file at startup, regardless of the terminal's current directory. No extra Python packages are needed.
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Fill in `GEMINI_API_KEY`, `ELEVENLABS_API_KEY`, Mercer's `ELEVENLABS_VOICE_ID` and `ELEVENLABS_NARRATOR_VOICE_ID`. The existing spelling `ELEVENSLABS_NARRATOR_VOICE_ID` is also accepted; you do not need to rename it. Optionally fill in `ELEVENLABS_DRONE_VOICE_ID`. Leave `VOYA_AI_PROVIDER=gemini` for Gemini. Then run:
+Fill in `GEMINI_API_KEY`, `ELEVENLABS_API_KEY`, Mercer's `ELEVENLABS_VOICE_ID` and `ELEVENLABS_NARRATOR_VOICE_ID`. The existing spelling `ELEVENSLABS_NARRATOR_VOICE_ID` is also accepted; you do not need to rename it. Optionally fill in `ELEVENLABS_DRONE_VOICE_ID`. Leave `VISTA_AI_PROVIDER=gemini` for Gemini. Then run:
 
 ```powershell
 python server/app.py
@@ -25,26 +25,26 @@ You can also keep using terminal variables instead:
 Python 3.11 or newer is sufficient; there are no packages to install. In PowerShell, set these environment variables in the terminal where you start the service (replace the placeholders locally; do not commit keys). For Gemini:
 
 ```powershell
-$env:VOYA_AI_PROVIDER = 'gemini'
+$env:VISTA_AI_PROVIDER = 'gemini'
 $env:GEMINI_API_KEY = '<your Google AI Studio API key>'
 $env:ELEVENLABS_API_KEY = '<your ElevenLabs API key>'
 $env:ELEVENLABS_VOICE_ID = '<voice ID selected for Mercer>'
 python server/app.py
 ```
 
-Create the Gemini key in [Google AI Studio](https://aistudio.google.com/apikey). Gemini handles transcription and dialogue classification in one audio request; OpenAI is not called in this mode. It defaults to `gemini-3.5-flash-lite`, with optional `VOYA_GEMINI_MODEL` override. Selected Gemini models have free-tier quotas, depending on project eligibility and limits; ElevenLabs still has its own billing/quota. See [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing) and [audio support](https://ai.google.dev/gemini-api/docs/audio). Data handling depends on the account and provider terms.
+Create the Gemini key in [Google AI Studio](https://aistudio.google.com/apikey). Gemini handles transcription and dialogue classification in one audio request; OpenAI is not called in this mode. It defaults to `gemini-3.5-flash-lite`, with optional `VISTA_GEMINI_MODEL` override. Selected Gemini models have free-tier quotas, depending on project eligibility and limits; ElevenLabs still has its own billing/quota. See [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing) and [audio support](https://ai.google.dev/gemini-api/docs/audio). Data handling depends on the account and provider terms.
 
 To use OpenAI instead:
 
 ```powershell
-$env:VOYA_AI_PROVIDER = 'openai'
+$env:VISTA_AI_PROVIDER = 'openai'
 $env:OPENAI_API_KEY = '<your OpenAI API key>'
 $env:ELEVENLABS_API_KEY = '<your ElevenLabs API key>'
 $env:ELEVENLABS_VOICE_ID = '<voice ID selected for Mercer>'
 python server/app.py
 ```
 
-If `VOYA_AI_PROVIDER` is unset, a nonempty `GEMINI_API_KEY` selects Gemini; otherwise the server selects OpenAI. Explicit selection wins when both keys are present. Startup and `/health` show the active provider. Provider errors never silently switch to another provider. After changing variables or updating Python code, stop the server with Ctrl+C and restart it in the same terminal. No APK reinstall is needed to switch AI providers. Opening `/` shows server status; gameplay takes place in the Android app.
+If `VISTA_AI_PROVIDER` is unset, a nonempty `GEMINI_API_KEY` selects Gemini; otherwise the server selects OpenAI. Explicit selection wins when both keys are present. Startup and `/health` show the active provider. Provider errors never silently switch to another provider. After changing variables or updating Python code, stop the server with Ctrl+C and restart it in the same terminal. No APK reinstall is needed to switch AI providers. Opening `/` shows server status; gameplay takes place in the Android app.
 
 Choose an English voice in your ElevenLabs account. This implementation generates new speech using that voice; it does not clone the performer in the existing recordings. The three opening clips still use the bundled recordings.
 
@@ -59,6 +59,8 @@ The vitals and smartphone checks include locally synthesized mechanical hums, el
 Narration and drone reports are cached in server memory by text, voice ID and model. The first run generates new narration through ElevenLabs; later repetitions reuse cached audio until Python restarts. This adds narrated speech time and uses ElevenLabs credits on first generation. Live voice quality should be checked with the selected narrator voice.
 
 ## Mercer and the drone
+
+Mercer's final-answer reactions are authored in each option's `Reaction` field in `dialogue_en.json` for `Q4_was_hat_er_gesagt` and its workshop follow-up, `Q6_wo_befindet_sich_diese_werkstatt`. The selected response plays before the next question or station-transfer threat and order. Innocence claims, warnings, control disclosures, insults and silence each receive their own reaction. Edit these fields and restart Python to change the spoken lines; generated text cannot replace the authored ending.
 
 After Maya answers `Q1_wo_ist_dein_vater`, Mercer says **“Drone, check her vitals.”** The authored outcome determines whether the drone reports low deception, high deception, or an inconclusive assessment. Disproved local leads and fantastical location claims trigger the high-deception report; silence, refusal and memory gaps are inconclusive. Mercer confronts Maya after the drone's report, then asks the next question selected by the existing branch rules. The key lists and reports are editable in `AfterAnswerCheck` in `dialogue_en.json`.
 
@@ -81,26 +83,26 @@ $env:ELEVENLABS_DRONE_VOICE_ID = '<voice ID selected for the drone>'
 python server/app.py
 ```
 
-Stop the existing Python process with Ctrl+C first and use the same terminal so its Gemini/OpenAI, ElevenLabs and `VOYA_HOST` settings remain present. `ELEVENLABS_VOICE_ID` still belongs to Mercer. If no drone voice ID is configured, the robotic effect uses the Mercer voice as its source. This creates a distinct processed voice at playback; it does not create a new voice in your ElevenLabs account. You can choose or design an English drone voice there and paste its ID into the optional variable. Suggested voice-design description: “A calm, synthetic security drone with precise English pronunciation, clipped diction, a flat analytical delivery and a restrained mechanical tone.”
+Stop the existing Python process with Ctrl+C first and use the same terminal so its Gemini/OpenAI, ElevenLabs and `VISTA_HOST` settings remain present. `ELEVENLABS_VOICE_ID` still belongs to Mercer. If no drone voice ID is configured, the robotic effect uses the Mercer voice as its source. This creates a distinct processed voice at playback; it does not create a new voice in your ElevenLabs account. You can choose or design an English drone voice there and paste its ID into the optional variable. Suggested voice-design description: “A calm, synthetic security drone with precise English pronunciation, clipped diction, a flat analytical delivery and a restrained mechanical tone.”
 
 Audio API reference: [ElevenLabs supported formats](https://elevenlabs.io/docs/help-center/troubleshooting/what-audio-formats-do-you-support).
 
 ## Device connection
 
-Without a local override, the Android emulator connects to `http://10.0.2.2:8787`. For a physical device connected by USB or wireless debugging, run `adb reverse tcp:8787 tcp:8787` and add `voya.dialogueUrl=http://127.0.0.1:8787` to the root `local.properties` file. This persists the device address for Android Studio Run and future builds on your computer; `local.properties` is excluded from Git. Repeat the reverse command after reconnecting the device. A command-line `'-PVOYA_DIALOGUE_URL=http://127.0.0.1:8787'` overrides the local setting for that build only. Rebuild after changing the URL. Cleartext HTTP is enabled only in debug builds. The service binds to localhost and has no authentication; keep it local. A shared deployment needs HTTPS, authentication and usage limits before exposing the paid endpoints.
+Without a local override, the Android emulator connects to `http://10.0.2.2:8787`. For a physical device connected by USB or wireless debugging, run `adb reverse tcp:8787 tcp:8787` and add `vista.dialogueUrl=http://127.0.0.1:8787` to the root `local.properties` file. This persists the device address for Android Studio Run and future builds on your computer; `local.properties` is excluded from Git. Repeat the reverse command after reconnecting the device. A command-line `'-PVISTA_DIALOGUE_URL=http://127.0.0.1:8787'` overrides the local setting for that build only. Rebuild after changing the URL. Cleartext HTTP is enabled only in debug builds. The service binds to localhost and has no authentication; keep it local. A shared deployment needs HTTPS, authentication and usage limits before exposing the paid endpoints.
 
 Optional model overrides:
 
-For a direct connection on the same trusted Wi-Fi network, bypass ADB reverse: set `voya.dialogueUrl=http://<computer-Wi-Fi-IP>:8787` in `local.properties`, rebuild the app, and restart Python in the existing credential terminal with `$env:VOYA_HOST = '<computer-Wi-Fi-IP>'`. Use the computer's address (from `ipconfig`), not the phone's address. If Windows prompts for Python firewall access, allow it on the private network used for testing. Verify `http://<computer-Wi-Fi-IP>:8787/health` from the phone before submitting an answer. The IP may change when the computer changes networks. To return to ADB reverse, reset the local URL to `http://127.0.0.1:8787`, set `VOYA_HOST` back to `127.0.0.1`, and rebuild/restart.
+For a direct connection on the same trusted Wi-Fi network, bypass ADB reverse: set `vista.dialogueUrl=http://<computer-Wi-Fi-IP>:8787` in `local.properties`, rebuild the app, and restart Python in the existing credential terminal with `$env:VISTA_HOST = '<computer-Wi-Fi-IP>'`. Use the computer's address (from `ipconfig`), not the phone's address. If Windows prompts for Python firewall access, allow it on the private network used for testing. Verify `http://<computer-Wi-Fi-IP>:8787/health` from the phone before submitting an answer. The IP may change when the computer changes networks. To return to ADB reverse, reset the local URL to `http://127.0.0.1:8787`, set `VISTA_HOST` back to `127.0.0.1`, and rebuild/restart.
 
 | Variable | Default |
 | --- | --- |
-| `VOYA_AI_PROVIDER` | Gemini when its key is set; otherwise OpenAI |
-| `VOYA_GEMINI_MODEL` | `gemini-3.5-flash-lite` |
-| `VOYA_DIALOGUE_MODEL` | `gpt-4o-mini` |
-| `VOYA_TRANSCRIBE_MODEL` | `gpt-transcribe` |
-| `VOYA_SPEECH_MODEL` | `eleven_v3` |
-| `VOYA_PORT` | `8787` |
+| `VISTA_AI_PROVIDER` | Gemini when its key is set; otherwise OpenAI |
+| `VISTA_GEMINI_MODEL` | `gemini-3.5-flash-lite` |
+| `VISTA_DIALOGUE_MODEL` | `gpt-4o-mini` |
+| `VISTA_TRANSCRIBE_MODEL` | `gpt-transcribe` |
+| `VISTA_SPEECH_MODEL` | `eleven_v3` |
+| `VISTA_PORT` | `8787` |
 
 Availability depends on your provider accounts. API usage incurs charges. The app explains that recordings are sent for AI processing and labels generated voice playback. The service keeps recordings/transcripts in request memory and does not log them; provider retention is governed by your provider account settings. Failed answers can be retried or recorded again without advancing the story. Retries can make new provider calls.
 

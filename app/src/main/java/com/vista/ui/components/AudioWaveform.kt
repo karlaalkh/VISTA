@@ -1,4 +1,4 @@
-package com.voya.ui.components
+package com.vista.ui.components
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
-import com.voya.ui.theme.VoyaColors
+import com.vista.ui.theme.VistaColors
 import kotlin.math.abs
 import kotlin.math.sin
 
@@ -57,7 +57,7 @@ fun AudioWaveform(
             val x = index * spacing + spacing / 2f
 
             drawLine(
-                color = VoyaColors.VoiceBlue.copy(
+                color = VistaColors.VoiceBlue.copy(
                     alpha = if (active) 0.95f else 0.45f
                 ),
                 start = Offset(x, centerY - height / 2f),

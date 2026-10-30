@@ -1,4 +1,4 @@
-package com.voya.ui.screens
+package com.vista.ui.screens
 
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
@@ -21,10 +21,10 @@ import androidx.compose.material.icons.filled.SmartToy
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.example.voya.R
-import com.voya.ui.components.AudioWaveform
-import com.voya.ui.components.CharacterSceneImage
-import com.voya.ui.theme.VoyaColors
+import com.example.vista.R
+import com.vista.ui.components.AudioWaveform
+import com.vista.ui.components.CharacterSceneImage
+import com.vista.ui.theme.VistaColors
 import java.io.File
 
 @Composable
@@ -95,7 +95,7 @@ fun FbiDialogueScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(VoyaColors.Background)
+            .background(VistaColors.Background)
             .statusBarsPadding()
             .navigationBarsPadding()
     ) {
@@ -108,9 +108,9 @@ fun FbiDialogueScreen(
                 Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center) {
                     Icon(Icons.Default.SmartToy, contentDescription = "Security drone",
-                        tint = VoyaColors.VoiceBlue, modifier = Modifier.size(112.dp))
+                        tint = VistaColors.VoiceBlue, modifier = Modifier.size(112.dp))
                     Spacer(Modifier.height(16.dp))
-                    Text("DRONE SCAN", color = VoyaColors.VoiceBlue, letterSpacing = 3.sp)
+                    Text("DRONE SCAN", color = VistaColors.VoiceBlue, letterSpacing = 3.sp)
                 }
             } else if (speaker == "Narrator") {
                 CharacterSceneImage(imageRes = R.drawable.tye_intro, modifier = Modifier.fillMaxSize())
@@ -136,24 +136,24 @@ fun FbiDialogueScreen(
         ) {
             Text(
                 text = speaker.uppercase(),
-                color = VoyaColors.Gold,
+                color = VistaColors.Gold,
                 fontSize = 12.sp,
                 letterSpacing = 2.sp
             )
 
             Spacer(Modifier.height(16.dp))
             if (generatedVoice) {
-                Text("AI-generated voice", color = VoyaColors.TextSecondary, fontSize = 12.sp)
+                Text("AI-generated voice", color = VistaColors.TextSecondary, fontSize = 12.sp)
             }
             suspicion?.let {
-                Text("Suspicion: $it/100", color = VoyaColors.Gold, fontSize = 12.sp)
+                Text("Suspicion: $it/100", color = VistaColors.Gold, fontSize = 12.sp)
             }
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(18.dp))
-                    .background(VoyaColors.Surface)
+                    .background(VistaColors.Surface)
                     .padding(20.dp)
             ) {
                 Text(
@@ -181,7 +181,7 @@ fun FbiDialogueScreen(
                     speaker == "Narrator" -> "Narrating the scene..."
                     else -> "$speaker speaking..."
                 },
-                color = VoyaColors.TextSecondary,
+                color = VistaColors.TextSecondary,
                 fontSize = 13.sp
             )
             if (playbackFailed) {

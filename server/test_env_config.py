@@ -17,14 +17,14 @@ class EnvConfigTests(unittest.TestCase):
         self.addCleanup(environment.stop)
 
     def test_loads_bom_quotes_comments_and_empty_optional_settings(self):
-        self.path.write_text('\ufeff# Local settings\nVOYA_AI_PROVIDER=gemini\n'
+        self.path.write_text('\ufeff# Local settings\nVISTA_AI_PROVIDER=gemini\n'
                              'GEMINI_API_KEY="secret#with=punctuation" # comment\n'
                              "export ELEVENLABS_API_KEY='another-secret'\n"
-                             'VOYA_HOST=0.0.0.0 # Wi-Fi\nELEVENLABS_DRONE_VOICE_ID=\n', encoding="utf-8")
+                             'VISTA_HOST=0.0.0.0 # Wi-Fi\nELEVENLABS_DRONE_VOICE_ID=\n', encoding="utf-8")
         self.assertTrue(load_env(self.path))
         self.assertEqual("secret#with=punctuation", os.environ["GEMINI_API_KEY"])
         self.assertEqual("another-secret", os.environ["ELEVENLABS_API_KEY"])
-        self.assertEqual("0.0.0.0", os.environ["VOYA_HOST"])
+        self.assertEqual("0.0.0.0", os.environ["VISTA_HOST"])
         self.assertEqual("", os.environ["ELEVENLABS_DRONE_VOICE_ID"])
 
     def test_existing_environment_wins(self):

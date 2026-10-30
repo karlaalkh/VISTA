@@ -1,4 +1,4 @@
-package com.voya.ui.screens
+package com.vista.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,8 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.voya.ui.components.EmpathyLens
-import com.voya.ui.theme.VoyaColors
+import com.vista.ui.components.EmpathyLens
+import com.vista.ui.theme.VistaColors
 
 @Composable
 fun HomeScreen(
@@ -24,9 +24,9 @@ fun HomeScreen(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        VoyaColors.Background,
-                        VoyaColors.MidnightBlue,
-                        VoyaColors.Background
+                        VistaColors.Background,
+                        VistaColors.MidnightBlue,
+                        VistaColors.Background
                     )
                 )
             )
@@ -51,8 +51,8 @@ fun HomeScreen(
             Spacer(Modifier.height(20.dp))
 
             Text(
-                text = "V O Y A",
-                color = VoyaColors.TextPrimary,
+                text = "V I S T A",
+                color = VistaColors.TextPrimary,
                 fontSize = 34.sp,
                 fontWeight = FontWeight.Light,
                 letterSpacing = 5.sp
@@ -62,7 +62,7 @@ fun HomeScreen(
 
             Text(
                 text = "Your voice. Your story.",
-                color = VoyaColors.Gold,
+                color = VistaColors.Gold,
                 fontSize = 15.sp
             )
 
@@ -70,7 +70,7 @@ fun HomeScreen(
 
             Text(
                 text = "Step into another perspective.",
-                color = VoyaColors.TextPrimary,
+                color = VistaColors.TextPrimary,
                 fontSize = 27.sp,
                 lineHeight = 36.sp,
                 textAlign = TextAlign.Center,
@@ -86,8 +86,8 @@ fun HomeScreen(
                     .height(56.dp),
                 shape = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = VoyaColors.Gold,
-                    contentColor = VoyaColors.Background
+                    containerColor = VistaColors.Gold,
+                    contentColor = VistaColors.Background
                 )
             ) {
                 Text(

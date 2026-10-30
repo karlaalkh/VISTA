@@ -1,8 +1,8 @@
-# VOYA
+# VISTA
 
 Interactive audio experience for EIT Culture & Creativity. The game now interprets the player's spoken answers as Maya and generates English replies voiced as Mercer. See [AI dialogue setup](server/README.md) for server credentials, emulator/device connections, dialogue rules and verification.
 
-Kotlin Android starter using Jetpack Compose, Material 3, and MVVM. Package/application ID: `com.example.voya`. Minimum Android version: Android 8.0 (API 26).
+Kotlin Android starter using Jetpack Compose, Material 3, and MVVM. Package/application ID: `com.example.vista`. Minimum Android version: Android 8.0 (API 26).
 
 ## Open and run
 
@@ -22,9 +22,9 @@ The debug APK is generated at `app/build/outputs/apk/debug/app-debug.apk`.
 ## Structure
 
 ```text
-app/src/main/java/com/example/voya/
+app/src/main/java/com/example/vista/
   MainActivity.kt              Activity entry point; hosts Compose
-  VoyaApplication.kt           Owns application-scoped dependencies
+  VistaApplication.kt           Owns application-scoped dependencies
   di/AppContainer.kt          Creates and connects repository implementations
   data/model/                 Plain Kotlin data models
   data/repository/            Data contracts and implementations

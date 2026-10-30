@@ -1,4 +1,4 @@
-package com.voya.ui.screens
+package com.vista.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,8 +17,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.voya.R
-import com.voya.ui.theme.VoyaColors
+import com.example.vista.R
+import com.vista.ui.theme.VistaColors
 
 @Composable
 fun StoryDetailsScreen(
@@ -28,7 +28,7 @@ fun StoryDetailsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(VoyaColors.Background)
+            .background(VistaColors.Background)
             .statusBarsPadding()
             .navigationBarsPadding()
             .verticalScroll(rememberScrollState())
@@ -54,7 +54,7 @@ fun StoryDetailsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(260.dp)
-                .background(VoyaColors.Background),
+                .background(VistaColors.Background),
             contentAlignment = Alignment.Center
         ) {
             Image(
@@ -85,7 +85,7 @@ fun StoryDetailsScreen(
 
             Text(
                 text = "THRILLER  ·  INTERACTIVE AUDIO",
-                color = VoyaColors.Gold,
+                color = VistaColors.Gold,
                 fontSize = 11.sp,
                 letterSpacing = 1.5.sp
             )
@@ -96,7 +96,7 @@ fun StoryDetailsScreen(
                 text = "A cinematic thriller about control, " +
                         "responsibility and what remains of a person " +
                         "when others begin to shape their perception.",
-                color = VoyaColors.TextSecondary,
+                color = VistaColors.TextSecondary,
                 fontSize = 15.sp,
                 lineHeight = 24.sp
             )
@@ -110,8 +110,8 @@ fun StoryDetailsScreen(
                     .height(56.dp),
                 shape = RoundedCornerShape(28.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = VoyaColors.Gold,
-                    contentColor = VoyaColors.Background
+                    containerColor = VistaColors.Gold,
+                    contentColor = VistaColors.Background
                 )
             ) {
                 Text(

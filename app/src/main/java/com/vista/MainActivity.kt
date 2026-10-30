@@ -1,4 +1,4 @@
-package com.voya
+package com.vista
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,14 +7,14 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.voya.data.model.OnboardingPreferences
-import com.voya.ui.screens.HomeScreen
-import com.voya.ui.screens.OnboardingScreen
-import com.voya.ui.screens.GameScreen
-import com.voya.ui.theme.VoyaTheme
+import com.vista.data.model.OnboardingPreferences
+import com.vista.ui.screens.HomeScreen
+import com.vista.ui.screens.OnboardingScreen
+import com.vista.ui.screens.GameScreen
+import com.vista.ui.theme.VistaTheme
 import kotlinx.coroutines.launch
-import com.voya.ui.screens.StoryDetailsScreen
-import com.voya.ui.screens.StoryIntroScreen
+import com.vista.ui.screens.StoryDetailsScreen
+import com.vista.ui.screens.StoryIntroScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            VoyaTheme {
+            VistaTheme {
                 val scope = rememberCoroutineScope()
 
                 val completed by preferences

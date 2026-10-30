@@ -1,4 +1,4 @@
-package com.voya.ui.screens
+package com.vista.ui.screens
 
 import android.media.MediaPlayer
 import androidx.activity.compose.BackHandler
@@ -22,8 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.voya.ui.theme.VoyaColors
-import com.example.voya.R
+import com.vista.ui.theme.VistaColors
+import com.example.vista.R
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -137,9 +137,9 @@ fun StoryIntroScreen(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        VoyaColors.MidnightBlue,
-                        VoyaColors.Background,
-                        VoyaColors.Background
+                        VistaColors.MidnightBlue,
+                        VistaColors.Background,
+                        VistaColors.Background
                     )
                 )
             )
@@ -153,8 +153,8 @@ fun StoryIntroScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "VOYA",
-                color = VoyaColors.Gold,
+                text = "VISTA",
+                color = VistaColors.Gold,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 3.sp
@@ -163,7 +163,7 @@ fun StoryIntroScreen(
             TextButton(onClick = onStartDialogue) {
                 Text(
                     text = "Skip »",
-                    color = VoyaColors.TextSecondary
+                    color = VistaColors.TextSecondary
                 )
             }
         }
@@ -181,9 +181,9 @@ fun StoryIntroScreen(
                         .height(3.dp)
                         .background(
                             if (index <= pageIndex)
-                                VoyaColors.Gold
+                                VistaColors.Gold
                             else
-                                VoyaColors.MidnightBlue,
+                                VistaColors.MidnightBlue,
                             RoundedCornerShape(50)
                         )
                 )
@@ -206,10 +206,10 @@ fun StoryIntroScreen(
                         val thumbTop = inset + (trackHeight - thumbHeight) *
                             scrollState.value.toFloat() / overflow
                         val radius = CornerRadius(width / 2, width / 2)
-                        drawRoundRect(VoyaColors.TextSecondary.copy(alpha = 0.18f),
+                        drawRoundRect(VistaColors.TextSecondary.copy(alpha = 0.18f),
                             topLeft = Offset(size.width - width, inset),
                             size = Size(width, trackHeight), cornerRadius = radius)
-                        drawRoundRect(VoyaColors.Gold,
+                        drawRoundRect(VistaColors.Gold,
                             topLeft = Offset(size.width - width, thumbTop),
                             size = Size(width, thumbHeight), cornerRadius = radius)
                     }
@@ -223,7 +223,7 @@ fun StoryIntroScreen(
 
             Text(
                 text = page.label,
-                color = VoyaColors.Gold,
+                color = VistaColors.Gold,
                 fontSize = 11.sp,
                 letterSpacing = 3.sp
             )
@@ -232,7 +232,7 @@ fun StoryIntroScreen(
 
             Text(
                 text = page.heading,
-                color = VoyaColors.TextPrimary,
+                color = VistaColors.TextPrimary,
                 fontSize = 27.sp,
                 lineHeight = 33.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -244,7 +244,7 @@ fun StoryIntroScreen(
             page.paragraphs.forEach { paragraph ->
                 Text(
                     text = paragraph,
-                    color = VoyaColors.TextSecondary,
+                    color = VistaColors.TextSecondary,
                     fontSize = 16.sp,
                     lineHeight = 25.sp,
                     textAlign = TextAlign.Center
@@ -258,7 +258,7 @@ fun StoryIntroScreen(
 
         if (playbackFailed) {
             Text("Could not play the narration. You can retry or continue reading.",
-                color = VoyaColors.TextSecondary, textAlign = TextAlign.Center)
+                color = VistaColors.TextSecondary, textAlign = TextAlign.Center)
             TextButton(onClick = {
                 playbackPosition = 0
                 playbackFinished = false
@@ -281,8 +281,8 @@ fun StoryIntroScreen(
                 .height(56.dp),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = VoyaColors.Gold,
-                contentColor = VoyaColors.Background
+                containerColor = VistaColors.Gold,
+                contentColor = VistaColors.Background
             )
         ) {
             Text(
@@ -302,7 +302,7 @@ fun StoryIntroScreen(
             ) {
                 Text(
                     text = "Previous",
-                    color = VoyaColors.TextSecondary
+                    color = VistaColors.TextSecondary
                 )
             }
         }

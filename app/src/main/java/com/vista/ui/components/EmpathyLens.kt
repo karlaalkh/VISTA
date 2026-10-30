@@ -1,4 +1,4 @@
-package com.voya.ui.components
+package com.vista.ui.components
 
 import androidx.compose.animation.core.EaseInOutSine
 import androidx.compose.animation.core.RepeatMode
@@ -23,14 +23,14 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.voya.ui.theme.VoyaColors
-import com.voya.ui.theme.VoyaTheme
+import com.vista.ui.theme.VistaColors
+import com.vista.ui.theme.VistaTheme
 
 @Composable
 fun EmpathyLens(
     modifier: Modifier = Modifier,
-    eyeColor: Color = VoyaColors.Gold,
-    lensColor: Color = VoyaColors.VoiceBlue,
+    eyeColor: Color = VistaColors.Gold,
+    lensColor: Color = VistaColors.VoiceBlue,
     openness: Float = 1f,
     gaze: Float = 0f
 ) {
@@ -124,7 +124,7 @@ fun EmpathyLens(
                     brush = Brush.radialGradient(
                         colors = listOf(
                             Color(0xFF244968),
-                            VoyaColors.Background
+                            VistaColors.Background
                         ),
                         center = center,
                         radius = irisRadius
@@ -135,7 +135,7 @@ fun EmpathyLens(
 
                 // Pupil
                 drawCircle(
-                    color = VoyaColors.Background,
+                    color = VistaColors.Background,
                     radius = irisRadius * 0.40f,
                     center = center
                 )
@@ -177,7 +177,7 @@ fun EmpathyLens(
 @Preview(showBackground = true, backgroundColor = 0xFF07111C)
 @Composable
 private fun EmpathyLensPreview() {
-    VoyaTheme {
+    VistaTheme {
         EmpathyLens(
             modifier = Modifier.size(
                 width = 220.dp,

@@ -1,7 +1,7 @@
-package com.voya.data
+package com.vista.data
 
 import android.util.Base64
-import com.example.voya.BuildConfig
+import com.example.vista.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray

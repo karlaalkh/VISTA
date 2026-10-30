@@ -1,4 +1,4 @@
-package com.voya.ui.screens
+package com.vista.ui.screens
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -21,8 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.voya.ui.components.AnimatedEmpathyLens
-import com.voya.ui.theme.VoyaColors
+import com.vista.ui.components.AnimatedEmpathyLens
+import com.vista.ui.theme.VistaColors
 
 private data class OnboardingPage(
     val title: String,
@@ -67,9 +67,9 @@ fun OnboardingScreen(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        VoyaColors.Background,
-                        VoyaColors.MidnightBlue,
-                        VoyaColors.Background
+                        VistaColors.Background,
+                        VistaColors.MidnightBlue,
+                        VistaColors.Background
                     )
                 )
             )
@@ -88,8 +88,8 @@ fun OnboardingScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "VOYA",
-                    color = VoyaColors.Gold,
+                    text = "VISTA",
+                    color = VistaColors.Gold,
                     fontSize = 18.sp,
                     letterSpacing = 4.sp,
                     fontWeight = FontWeight.Medium
@@ -97,7 +97,7 @@ fun OnboardingScreen(
 
                 Text(
                     text = "${currentPage + 1} / 3",
-                    color = VoyaColors.TextSecondary,
+                    color = VistaColors.TextSecondary,
                     fontSize = 13.sp
                 )
             }
@@ -124,7 +124,7 @@ fun OnboardingScreen(
                             Icon(
                                 imageVector = Icons.Default.Mic,
                                 contentDescription = null,
-                                tint = VoyaColors.Gold,
+                                tint = VistaColors.Gold,
                                 modifier = Modifier.size(74.dp)
                             )
                         }
@@ -135,7 +135,7 @@ fun OnboardingScreen(
                             Icon(
                                 imageVector = Icons.Default.Headphones,
                                 contentDescription = null,
-                                tint = VoyaColors.Gold,
+                                tint = VistaColors.Gold,
                                 modifier = Modifier.size(90.dp)
                             )
                         }
@@ -147,7 +147,7 @@ fun OnboardingScreen(
 
             Text(
                 text = page.title,
-                color = VoyaColors.TextPrimary,
+                color = VistaColors.TextPrimary,
                 fontSize = 27.sp,
                 lineHeight = 34.sp,
                 fontWeight = FontWeight.Medium,
@@ -158,7 +158,7 @@ fun OnboardingScreen(
 
             Text(
                 text = page.subtitle,
-                color = VoyaColors.Gold,
+                color = VistaColors.Gold,
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center
             )
@@ -167,7 +167,7 @@ fun OnboardingScreen(
 
             Text(
                 text = page.description,
-                color = VoyaColors.TextSecondary,
+                color = VistaColors.TextSecondary,
                 fontSize = 15.sp,
                 lineHeight = 24.sp,
                 textAlign = TextAlign.Center
@@ -190,9 +190,9 @@ fun OnboardingScreen(
                             .height(8.dp)
                             .background(
                                 color = if (index == currentPage) {
-                                    VoyaColors.Gold
+                                    VistaColors.Gold
                                 } else {
-                                    VoyaColors.TextSecondary.copy(
+                                    VistaColors.TextSecondary.copy(
                                         alpha = 0.35f
                                     )
                                 },
@@ -217,8 +217,8 @@ fun OnboardingScreen(
                     .height(56.dp),
                 shape = RoundedCornerShape(28.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = VoyaColors.Gold,
-                    contentColor = VoyaColors.Background
+                    containerColor = VistaColors.Gold,
+                    contentColor = VistaColors.Background
                 )
             ) {
                 Text(
@@ -240,7 +240,7 @@ fun OnboardingScreen(
                 ) {
                     Text(
                         text = "Skip",
-                        color = VoyaColors.TextSecondary
+                        color = VistaColors.TextSecondary
                     )
                 }
             } else {
@@ -262,14 +262,14 @@ private fun OnboardingSymbol(
             drawCircle(
                 brush = Brush.radialGradient(
                     listOf(
-                        VoyaColors.VoiceBlue.copy(alpha = 0.20f),
+                        VistaColors.VoiceBlue.copy(alpha = 0.20f),
                         Color.Transparent
                     )
                 )
             )
 
             drawCircle(
-                color = VoyaColors.VoiceBlue.copy(alpha = 0.35f),
+                color = VistaColors.VoiceBlue.copy(alpha = 0.35f),
                 radius = size.minDimension * 0.42f,
                 style = Stroke(
                     width = 2.dp.toPx(),

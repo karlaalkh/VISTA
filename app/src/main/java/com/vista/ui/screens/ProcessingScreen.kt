@@ -1,4 +1,4 @@
-package com.voya.ui.screens
+package com.vista.ui.screens
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.voya.ui.theme.VoyaColors
+import com.vista.ui.theme.VistaColors
 import kotlinx.coroutines.delay
 
 @Composable
@@ -53,9 +53,9 @@ fun ProcessingScreen(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        VoyaColors.Background,
-                        VoyaColors.MidnightBlue,
-                        VoyaColors.Background
+                        VistaColors.Background,
+                        VistaColors.MidnightBlue,
+                        VistaColors.Background
                     )
                 )
             ),
@@ -71,7 +71,7 @@ fun ProcessingScreen(
                 val stroke = 5.dp.toPx()
 
                 drawCircle(
-                    color = VoyaColors.VoiceBlue.copy(
+                    color = VistaColors.VoiceBlue.copy(
                         alpha = 0.16f
                     ),
                     radius = size.minDimension / 2f - stroke,
@@ -79,7 +79,7 @@ fun ProcessingScreen(
                 )
 
                 drawArc(
-                    color = VoyaColors.VoiceBlue,
+                    color = VistaColors.VoiceBlue,
                     startAngle = rotation,
                     sweepAngle = 110f,
                     useCenter = false,
@@ -103,7 +103,7 @@ fun ProcessingScreen(
 
             Text(
                 text = "The story is listening.",
-                color = VoyaColors.TextSecondary,
+                color = VistaColors.TextSecondary,
                 fontSize = 14.sp
             )
         }

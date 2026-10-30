@@ -31,7 +31,7 @@ class NarrationTests(unittest.TestCase):
         app.cached_narration.cache_clear()
         self.addCleanup(app.cached_narration.cache_clear)
         env = {"ELEVENLABS_API_KEY":"test-key", "ELEVENLABS_VOICE_ID":"mercer",
-               "ELEVENSLABS_NARRATOR_VOICE_ID":"narrator", "VOYA_SPEECH_MODEL":"eleven_v3"}
+               "ELEVENSLABS_NARRATOR_VOICE_ID":"narrator", "VISTA_SPEECH_MODEL":"eleven_v3"}
         with patch.dict(os.environ, env, clear=True), patch.object(app, "request_bytes", return_value=b"narration") as api:
             self.assertEqual(b"narration", app.speak_narrator("Mercer approaches Maya."))
             app.speak_narrator("Mercer approaches Maya.")

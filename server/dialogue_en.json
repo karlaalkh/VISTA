@@ -67,21 +67,21 @@
     "StationEnding":{"Threat":"If you don't cooperate, I'll take you with me and we'll continue this conversation somewhere else.","InsultThreat":"I'll teach you some manners.","Order":"Enough. We're taking her to the station."},
     "Context":"Mercer gathers leads about Maya's father. Distinguish describing the father's technology from claiming to be the father or controlling Maya yourself.","ConfidenceThreshold":0.55,"FallbackKey":"NO_INPUT",
     "Options":[
-      {"Key":"SELF_REVEAL","Hint":"Claims to be Alex/the father or to control Maya; reveals the player's identity/control.","NextAction":"GameOver","DeltaSuspicion":100,"SuspicionReasonText":"Identity breach detected"},
-      {"Key":"OVERRIDE_CONTROL","Hint":"Says the father told her he can control, override, connect to or take over her.","NextAction":"FreeRoam","DeltaSuspicion":-20,"SuspicionReasonText":"Incriminating statement about father"},
-      {"Key":"PAIRING_KEYCHAIN_LINK","Hint":"Mentions pairing, a pendant, keychain, keeping the link or coupling a module.","NextAction":"GameOver","DeltaSuspicion":100,"SuspicionReasonText":"Unusual inside knowledge"},
-      {"Key":"WARNING_MISTRUST","Hint":"A warning: trust no one, don't believe anyone.","NextAction":"FreeRoam","DeltaSuspicion":0,"SuspicionReasonText":"Warning of mistrust"},
-      {"Key":"INSULT_OR_AGGRESSION","Hint":"An insult or aggression as the content of the statement, e.g. bastard or fuck you.","NextAction":"FreeRoam","DeltaSuspicion":2,"SuspicionReasonText":"Uncooperative reaction"},
-      {"Key":"EXPLAIN_INNOCENT","Hint":"He can explain everything, he is innocent.","NextAction":"FreeRoam","DeltaSuspicion":0,"SuspicionReasonText":"Protective claim"},
-      {"Key":"WORKSHOP_LOCATION_MENTION","Hint":"Says he is in his/a workshop, works there or is staying there.","NextDialogue":"Q6_wo_befindet_sich_diese_werkstatt","DeltaSuspicion":-10,"SuspicionReasonText":"Cooperative lead"},
-      {"Key":"REFUSE_MINIMIZE_OTHER","Hint":"Nothing, no time, I won't say, minimisation, refusal, off-topic or nonsense.","NextAction":"FreeRoam","DeltaSuspicion":3,"SuspicionReasonText":"Uncooperative answer"},
-      {"Key":"NO_INPUT","Hint":"Silence, empty or no usable content. FALLBACK.","NextAction":"FreeRoam","DeltaSuspicion":15,"SuspicionReasonText":"No response"}
+      {"Key":"SELF_REVEAL","Reaction":"So you're the one behind this. That is enough. This conversation is over.","Hint":"Claims to be Alex/the father or to control Maya; reveals the player's identity/control.","NextAction":"GameOver","DeltaSuspicion":100,"SuspicionReasonText":"Identity breach detected"},
+      {"Key":"OVERRIDE_CONTROL","Reaction":"He told you he can take control of you. Then we need to find him before he tries it again.","Hint":"Says the father told her he can control, override, connect to or take over her.","NextAction":"FreeRoam","DeltaSuspicion":-20,"SuspicionReasonText":"Incriminating statement about father"},
+      {"Key":"PAIRING_KEYCHAIN_LINK","Reaction":"Pairing. A keychain. You know far too much about how this works. This conversation is over.","Hint":"Mentions pairing, a pendant, keychain, keeping the link or coupling a module.","NextAction":"GameOver","DeltaSuspicion":100,"SuspicionReasonText":"Unusual inside knowledge"},
+      {"Key":"WARNING_MISTRUST","Reaction":"Trust no one. Convenient advice from a man we're trying to find.","Hint":"A warning: trust no one, don't believe anyone.","NextAction":"FreeRoam","DeltaSuspicion":0,"SuspicionReasonText":"Warning of mistrust"},
+      {"Key":"INSULT_OR_AGGRESSION","Reaction":"I'll teach you some manners.","Hint":"An insult or aggression as the content of the statement, e.g. bastard or fuck you.","NextAction":"FreeRoam","DeltaSuspicion":2,"SuspicionReasonText":"Uncooperative reaction"},
+      {"Key":"EXPLAIN_INNOCENT","Reaction":"He says he's innocent. Then he can explain himself to us.","Hint":"He can explain everything, he is innocent.","NextAction":"FreeRoam","DeltaSuspicion":0,"SuspicionReasonText":"Protective claim"},
+      {"Key":"WORKSHOP_LOCATION_MENTION","Reaction":"A workshop. Finally, something we can follow up.","Hint":"Says he is in his/a workshop, works there or is staying there.","NextDialogue":"Q6_wo_befindet_sich_diese_werkstatt","DeltaSuspicion":-10,"SuspicionReasonText":"Cooperative lead"},
+      {"Key":"REFUSE_MINIMIZE_OTHER","Reaction":"You're giving me nothing I can use, Maya. My patience is running out.","Hint":"Nothing, no time, I won't say, minimisation, refusal, off-topic or nonsense.","NextAction":"FreeRoam","DeltaSuspicion":3,"SuspicionReasonText":"Uncooperative answer"},
+      {"Key":"NO_INPUT","Reaction":"Silence again. I'm done waiting for you to speak.","Hint":"Silence, empty or no usable content. FALLBACK.","NextAction":"FreeRoam","DeltaSuspicion":15,"SuspicionReasonText":"No response"}
     ]
   },
   {
     "Name":"Q6_wo_befindet_sich_diese_werkstatt","Level":"Level1","Dialog":"Where is this workshop?",
     "StationEnding":{"Threat":"If you don't cooperate, I'll take you with me and we'll continue this conversation somewhere else.","InsultThreat":"I'll teach you some manners.","Order":"Enough. We're taking her to the station."},
     "Context":"Mercer follows up after Maya mentions that her father is in a workshop.","ConfidenceThreshold":0,"FallbackKey":"WORKSHOP_LOCATION_ANY",
-    "Options":[{"Key":"WORKSHOP_LOCATION_ANY","Hint":"Every answer belongs here. Transition to the closing sequence.","NextAction":"FreeRoam","NextSequence":"SEQ_HS_POLICE_MYLES_LET_GO","DeltaSuspicion":10,"SuspicionReasonText":"Inconsistent workshop information"}]
+    "Options":[{"Key":"WORKSHOP_LOCATION_ANY","Reaction":"I've heard enough about this workshop, Maya.","Hint":"Every answer belongs here. Transition to the closing sequence.","NextAction":"FreeRoam","NextSequence":"SEQ_HS_POLICE_MYLES_LET_GO","DeltaSuspicion":10,"SuspicionReasonText":"Inconsistent workshop information"}]
   }
 ]

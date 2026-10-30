@@ -1,4 +1,4 @@
-package com.voya.ui.screens
+package com.vista.ui.screens
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -25,11 +25,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.example.voya.R
-import com.voya.audio.VoiceRecorder
-import com.voya.ui.components.AudioWaveform
-import com.voya.ui.components.CharacterSceneImage
-import com.voya.ui.theme.VoyaColors
+import com.example.vista.R
+import com.vista.audio.VoiceRecorder
+import com.vista.ui.components.AudioWaveform
+import com.vista.ui.components.CharacterSceneImage
+import com.vista.ui.theme.VistaColors
 import java.io.File
 
 @Composable
@@ -99,7 +99,7 @@ fun MayaRecordingScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(VoyaColors.Background)
+            .background(VistaColors.Background)
             .statusBarsPadding()
             .navigationBarsPadding()
     ) {
@@ -123,18 +123,18 @@ fun MayaRecordingScreen(
         ) {
             Text(
                 text = "YOUR TURN",
-                color = VoyaColors.Gold,
+                color = VistaColors.Gold,
                 fontSize = 12.sp,
                 letterSpacing = 2.sp
             )
 
             Spacer(Modifier.height(14.dp))
             Text("Answer as Maya in English. Your recording is sent for AI processing.",
-                color = VoyaColors.TextSecondary, fontSize = 12.sp, textAlign = TextAlign.Center)
+                color = VistaColors.TextSecondary, fontSize = 12.sp, textAlign = TextAlign.Center)
             Spacer(Modifier.height(8.dp))
 
             questionText?.let {
-                Text(it, color = VoyaColors.TextSecondary, fontSize = 16.sp,
+                Text(it, color = VistaColors.TextSecondary, fontSize = 16.sp,
                     textAlign = TextAlign.Center)
                 Spacer(Modifier.height(12.dp))
             }
@@ -163,7 +163,7 @@ fun MayaRecordingScreen(
         ) {
             Text(
                 text = if (isRecording) "Tap to stop recording" else "Tap to speak",
-                color = VoyaColors.TextPrimary,
+                color = VistaColors.TextPrimary,
                 fontSize = 13.sp,
                 textAlign = TextAlign.Center
             )
@@ -205,8 +205,8 @@ fun MayaRecordingScreen(
                 shape = CircleShape,
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = VoyaColors.VoiceBlue,
-                    contentColor = VoyaColors.Background
+                    containerColor = VistaColors.VoiceBlue,
+                    contentColor = VistaColors.Background
                 )
             ) {
                 Icon(
@@ -228,7 +228,7 @@ fun MayaRecordingScreen(
                 Spacer(Modifier.height(10.dp))
                 Text(
                     text = message,
-                    color = VoyaColors.Error,
+                    color = VistaColors.Error,
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center
                 )

@@ -1,6 +1,6 @@
-package com.voya.data.model
+package com.vista.data.model
 
-import com.example.voya.R
+import com.example.vista.R
 
 data class InterrogationLine(
     val audioResId: Int,

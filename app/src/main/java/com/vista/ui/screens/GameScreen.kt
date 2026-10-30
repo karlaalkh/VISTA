@@ -1,4 +1,4 @@
-package com.voya.ui.screens
+package com.vista.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.voya.ui.theme.VoyaColors
+import com.vista.ui.theme.VistaColors
 
 @Composable
 fun GameScreen(onExit: () -> Unit = {}) {
@@ -48,7 +48,7 @@ fun GameScreen(onExit: () -> Unit = {}) {
                 )
             }
             else -> Column(
-                modifier = Modifier.fillMaxSize().background(VoyaColors.Background)
+                modifier = Modifier.fillMaxSize().background(VistaColors.Background)
                     .statusBarsPadding().navigationBarsPadding().padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
@@ -57,11 +57,11 @@ fun GameScreen(onExit: () -> Unit = {}) {
                     GamePhase.OPENING, GamePhase.PROCESSING -> {
                         CircularProgressIndicator()
                         Spacer(Modifier.height(24.dp))
-                        Text(if (state.opening) "Preparing the scene..." else "Mercer is considering your answer...", color = VoyaColors.TextPrimary,
+                        Text(if (state.opening) "Preparing the scene..." else "Mercer is considering your answer...", color = VistaColors.TextPrimary,
                             textAlign = TextAlign.Center)
                     }
                     GamePhase.ERROR -> {
-                        Text(state.error ?: "Could not process your answer.", color = VoyaColors.TextPrimary,
+                        Text(state.error ?: "Could not process your answer.", color = VistaColors.TextPrimary,
                             textAlign = TextAlign.Center)
                         Spacer(Modifier.height(16.dp))
                         Button(onClick = { model.retry(context.cacheDir) }) {
@@ -75,15 +75,15 @@ fun GameScreen(onExit: () -> Unit = {}) {
                             "TakeToStation" -> "Taken to the station"
                             else -> "Interrogation complete"
                         },
-                            style = MaterialTheme.typography.headlineMedium, color = VoyaColors.TextPrimary)
+                            style = MaterialTheme.typography.headlineMedium, color = VistaColors.TextPrimary)
                         Spacer(Modifier.height(12.dp))
                         if (state.reply?.action == "TakeToStation") {
                             Text("Mercer has ordered Maya's transfer to the police station.",
-                                color = VoyaColors.TextSecondary, textAlign = TextAlign.Center)
+                                color = VistaColors.TextSecondary, textAlign = TextAlign.Center)
                             Spacer(Modifier.height(12.dp))
                         }
-                        Text("Suspicion: ${state.suspicion}/100", color = VoyaColors.Gold)
-                        Text(state.reply?.reason.orEmpty(), color = VoyaColors.TextSecondary,
+                        Text("Suspicion: ${state.suspicion}/100", color = VistaColors.Gold)
+                        Text(state.reply?.reason.orEmpty(), color = VistaColors.TextSecondary,
                             textAlign = TextAlign.Center)
                     }
                     else -> Unit

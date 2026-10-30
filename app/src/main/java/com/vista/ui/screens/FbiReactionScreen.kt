@@ -1,4 +1,4 @@
-package com.voya.ui.screens
+package com.vista.ui.screens
 
 import android.media.MediaPlayer
 import androidx.compose.foundation.Image
@@ -18,8 +18,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.voya.R
-import com.voya.ui.theme.VoyaColors
+import com.example.vista.R
+import com.vista.ui.theme.VistaColors
 
 @Composable
 fun FbiReactionScreen(
@@ -55,7 +55,7 @@ fun FbiReactionScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(VoyaColors.Background)
+            .background(VistaColors.Background)
     ) {
         Image(
             painter = painterResource(R.drawable.fbi_speaking),
@@ -94,7 +94,7 @@ fun FbiReactionScreen(
 
             Text(
                 text = "FBI AGENT",
-                color = VoyaColors.Gold,
+                color = VistaColors.Gold,
                 fontSize = 12.sp,
                 letterSpacing = 2.sp
             )
@@ -106,7 +106,7 @@ fun FbiReactionScreen(
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(20.dp))
                     .background(
-                        VoyaColors.Surface.copy(alpha = 0.92f)
+                        VistaColors.Surface.copy(alpha = 0.92f)
                     )
                     .padding(22.dp)
             ) {
@@ -126,7 +126,7 @@ fun FbiReactionScreen(
                     } else {
                         "●  AGENT SPEAKING"
                     },
-                    color = VoyaColors.VoiceBlue,
+                    color = VistaColors.VoiceBlue,
                     fontSize = 11.sp,
                     letterSpacing = 1.sp
                 )
@@ -142,8 +142,8 @@ fun FbiReactionScreen(
                     .height(56.dp),
                 shape = RoundedCornerShape(28.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = VoyaColors.Gold,
-                    contentColor = VoyaColors.Background
+                    containerColor = VistaColors.Gold,
+                    contentColor = VistaColors.Background
                 )
             ) {
                 Text(

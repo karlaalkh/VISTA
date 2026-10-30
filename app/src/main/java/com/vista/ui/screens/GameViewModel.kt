@@ -1,11 +1,11 @@
-package com.voya.ui.screens
+package com.vista.ui.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.voya.R
-import com.voya.data.DialogueClient
-import com.voya.data.DialogueReply
-import com.voya.data.DialogueService
+import com.example.vista.R
+import com.vista.data.DialogueClient
+import com.vista.data.DialogueReply
+import com.vista.data.DialogueService
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableStateFlow

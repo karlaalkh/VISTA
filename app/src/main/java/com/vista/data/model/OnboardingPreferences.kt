@@ -1,4 +1,4 @@
-package com.voya.data.model
+package com.vista.data.model
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 private val Context.onboardingDataStore by preferencesDataStore(
-    name = "voya_preferences"
+    name = "vista_preferences"
 )
 
 class OnboardingPreferences(
