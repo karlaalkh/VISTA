@@ -38,6 +38,8 @@ class VoiceRecorder(
             mediaRecorder.setAudioEncoder(
                 MediaRecorder.AudioEncoder.AAC
             )
+            mediaRecorder.setAudioEncodingBitRate(64_000)
+            mediaRecorder.setAudioSamplingRate(44_100)
             mediaRecorder.setOutputFile(file.absolutePath)
             mediaRecorder.prepare()
             mediaRecorder.start()
@@ -70,7 +72,7 @@ class VoiceRecorder(
 
     fun release() {
         if (recorder != null) {
-            stop()
+            stop()?.delete()
         }
     }
 }

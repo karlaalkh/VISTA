@@ -10,3 +10,7 @@ local.properties
 captures/
 .externalNativeBuild/
 .cxx/
+.env
+.env.*
+!.env.example
+__pycache__/

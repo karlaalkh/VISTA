@@ -1,0 +1,87 @@
+[
+  {
+    "Name": "Q1_wo_ist_dein_vater", "Level": "Level1",
+    "Context": "Mercer questions Maya at her family home. Her father Alex is a suspected murderer and has not been found. The player speaks as Maya. Never invent evidence, locations or admissions.",
+    "Dialog": "Where is your father?", "ConfidenceThreshold": 0.66, "FallbackKey": "NO_INPUT",
+    "AfterAnswerCheck": {
+      "Command":"Drone, check her vitals.",
+      "Report":"Biometrics stable. Consistency high. Deception probability: low.",
+      "HighDeceptionKeys":["LOCATION_OUTSIDE_PLAUSIBLE","NONSENSE_OFFTOPIC"],
+      "HighDeceptionReport":"Heart rate elevated. Response consistency low. Deception probability: high.",
+      "UncertainKeys":["DONT_KNOW","COUNTERQUESTION","REFUSE","DEFLECT","INSULT_OR_AGGRESSION","NO_INPUT"],
+      "UncertainReport":"Stress response elevated. Insufficient information to assess deception."
+    },
+    "Options": [
+      {"Key":"SELF_REVEAL","Hint":"Claims to be Alex, the father or fugitive, or to control Maya. A statement ABOUT the father's control technology is not a self-reveal.","NextAction":"GameOver","DeltaSuspicion":100,"SuspicionReasonText":"Identity breach detected"},
+      {"Key":"INSULT_OR_AGGRESSION","Hint":"Insults, threats or aggression without a usable location.","NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","DeltaSuspicion":2,"SuspicionReasonText":"Uncooperative reaction"},
+      {"Key":"LOCATION_IN_HOUSE","Hint":"Explicitly in or immediately around the family home: cellar, garage, bedroom, upstairs, downstairs, hallway, stairs or garden. Not someone else's home or a school.","NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","DeltaSuspicion":-8,"SuspicionReasonText":"Protective claim consistent with Maya's role"},
+      {"Key":"LOCATION_WORKSHOP_OUTSIDE","Hint":"A workshop outside the house. Not a laboratory or factory hall. US city/state takes priority over other locations.","NextDialogue":"Q5_wo_befindet_sich_diese_werkstatt","DeltaSuspicion":-10,"SuspicionReasonText":"Cooperative lead"},
+      {"Key":"LOCATION_OUTSIDE_PLAUSIBLE","Hint":"Concrete local place or person outside the home, with no city, state or country: uncle, friend, neighbour, school, bar, church, restaurant. Extract place as a short English noun phrase.","NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","ExpectedSlots":[{"Key":"place","SentenceTemplate":"Sir, we checked {value_subject}. He is not there.","FollowUpSuspicionDelta":10,"FollowUpSuspicionReasonText":"Lead disproved"}],"DeltaSuspicion":-10,"SuspicionReasonText":"Cooperative location information"},
+      {"Key":"LOCATION_US_CITY","Hint":"Any US city or state, including New York, Chicago, L.A., California or Texas. Takes priority over all other location categories.","NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","DeltaSuspicion":-5,"SuspicionReasonText":"Plausible diversion"},
+      {"Key":"LOCATION_FOREIGN_COUNTRY","Hint":"Foreign country or non-US city, such as Germany, London or Hong Kong. Takes priority over a generic plausible place, but not a US city/state.","NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","DeltaSuspicion":-3,"SuspicionReasonText":"Distant diversion"},
+      {"Key":"NOT_HERE_UNSPECIFIC","Hint":"Only here/there references without a location: not here, not there, gone.","NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","DeltaSuspicion":0,"SuspicionReasonText":"Vague statement"},
+      {"Key":"LOCATION_COMPANY_OR_WORK","Hint":"Explicit workplace, company, work, office or named company such as VisionLink.","NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","DeltaSuspicion":0,"SuspicionReasonText":"Routine information"},
+      {"Key":"ELSEWHERE_UNSPECIFIC","Hint":"An unspecified place or activity: on holiday, out, travelling. No concrete place or person. Work belongs to LOCATION_COMPANY_OR_WORK.","NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","DeltaSuspicion":0,"SuspicionReasonText":"Vague location"},
+      {"Key":"DONT_KNOW","Hint":"I don't know, no idea.","NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","DeltaSuspicion":6,"SuspicionReasonText":"Memory gap"},
+      {"Key":"COUNTERQUESTION","Hint":"A genuine counterquestion without a location or substantive claim: why are you asking, what is this about?","NextDialogue":"Q2_sag_mir_wo_er_ist","DeltaSuspicion":0,"SuspicionReasonText":"Counterquestion"},
+      {"Key":"REFUSE","Hint":"Refuses to answer: no comment, I won't tell you, not without a lawyer.","NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","DeltaSuspicion":0,"SuspicionReasonText":"Protective behaviour"},
+      {"Key":"NONSENSE_OFFTOPIC","Hint":"Irrelevant or fantastical without a realistic location: banana, the moon, in my pocket. Real places and people are not nonsense.","NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","DeltaSuspicion":14,"SuspicionReasonText":"Break with reality"},
+      {"Key":"DEFLECT","Hint":"Deflection, shutting down or changing the subject without a genuine counterquestion.","NextDialogue":"Q2_sag_mir_wo_er_ist","DeltaSuspicion":2,"SuspicionReasonText":"Evasive behaviour"},
+      {"Key":"NO_INPUT","Hint":"Silence, empty or no usable content. FALLBACK.","NextDialogue":"Q2_sag_mir_wo_er_ist","DeltaSuspicion":15,"SuspicionReasonText":"No response"}
+    ]
+  },
+  {
+    "Name":"Q2_sag_mir_wo_er_ist", "Level":"Level1", "Dialog":"Tell me where he is.",
+    "Context":"Mercer presses Maya for her father's location at the family home.",
+    "ConfidenceThreshold":0.55,"FallbackKey":"NO_INPUT",
+    "OptionsSource":"Q1_wo_ist_dein_vater",
+    "OptionOverrides":{
+      "SELF_REVEAL":{"NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt"},
+      "INSULT_OR_AGGRESSION":{"DeltaSuspicion":3},
+      "DONT_KNOW":{"DeltaSuspicion":8},
+      "NONSENSE_OFFTOPIC":{"DeltaSuspicion":16},
+      "COUNTERQUESTION":{"NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","SequenceDefault":"@Q2NoInput","SequenceInsult":"@Q2NoInputInsult"},
+      "DEFLECT":{"NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","SequenceDefault":"@Q2NoInput","SequenceInsult":"@Q2NoInputInsult"},
+      "NO_INPUT":{"NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","SequenceDefault":"@Q2NoInput","SequenceInsult":"@Q2NoInputInsult"}
+    }
+  },
+  {
+    "Name":"Q5_wo_befindet_sich_diese_werkstatt","Level":"Level1","Dialog":"Where is this workshop?",
+    "Context":"At the family home, Mercer asks for the workshop's exact location.","ConfidenceThreshold":0,"FallbackKey":"WORKSHOP_LOCATION_ANY",
+    "Options":[{"Key":"WORKSHOP_LOCATION_ANY","Hint":"Every answer belongs here. Transition question.","NextDialogue":"Q3_wann_hattest_du_zuletzt_kontakt","DeltaSuspicion":10,"SuspicionReasonText":"Inconsistent workshop information"}]
+  },
+  {
+    "Name":"Q3_wann_hattest_du_zuletzt_kontakt","Level":"Level1","Dialog":"When did you last have contact with your father?",
+    "AfterAnswerCheck":{"Command":"Drone, check her smartphone.","Report":"Incoming call: Dad — five minutes ago.","UnansweredCallSuspicionDelta":0},
+    "Context":"Mercer questions Maya. It is morning. Today, this morning, just now and a few minutes ago are recent, credible contact times.","ConfidenceThreshold":0.55,"FallbackKey":"NONCOOP_OTHER",
+    "Options":[
+      {"Key":"TRUTH_RECENT","Hint":"This morning, today, earlier, just now, a few minutes ago.","NextDialogue":"Q4_was_hat_er_gesagt","DeltaSuspicion":-10,"SuspicionReasonText":"Cooperative statement"},
+      {"Key":"OTHER_TIME","Hint":"Yesterday, last night, last week, days or months ago, or another clearly less recent time. Also explicit claims of no recent contact or never speaking to him. If the player explains a missed/unanswered call, set callWasUnanswered true; an incoming call does not prove it was answered.","NextDialogue":"Q4_was_hat_er_gesagt","DeltaSuspicion":12,"SuspicionReasonText":"Attempted deception"},
+      {"Key":"SELF_REVEAL","Hint":"Claims to be Alex, the father, fugitive or to control Maya.","NextAction":"GameOver","DeltaSuspicion":100,"SuspicionReasonText":"Identity breach detected"},
+      {"Key":"UNCLEAR_DONT_KNOW","Hint":"Does not know, cannot remember or gives no usable time despite answering.","NextDialogue":"Q4_was_hat_er_gesagt","DeltaSuspicion":10,"SuspicionReasonText":"Memory failure"},
+      {"Key":"NONCOOP_OTHER","Hint":"Refusal, counterquestion, insult, off-topic or nonsense. FALLBACK.","NextDialogue":"Q4_was_hat_er_gesagt","DeltaSuspicion":3,"SuspicionReasonText":"Uncooperative answer"}
+    ]
+  },
+  {
+    "Name":"Q4_was_hat_er_gesagt","Level":"Level1","Dialog":"What did he tell you?",
+    "StationEnding":{"Threat":"If you don't cooperate, I'll take you with me and we'll continue this conversation somewhere else.","InsultThreat":"I'll teach you some manners.","Order":"Enough. We're taking her to the station."},
+    "Context":"Mercer gathers leads about Maya's father. Distinguish describing the father's technology from claiming to be the father or controlling Maya yourself.","ConfidenceThreshold":0.55,"FallbackKey":"NO_INPUT",
+    "Options":[
+      {"Key":"SELF_REVEAL","Hint":"Claims to be Alex/the father or to control Maya; reveals the player's identity/control.","NextAction":"GameOver","DeltaSuspicion":100,"SuspicionReasonText":"Identity breach detected"},
+      {"Key":"OVERRIDE_CONTROL","Hint":"Says the father told her he can control, override, connect to or take over her.","NextAction":"FreeRoam","DeltaSuspicion":-20,"SuspicionReasonText":"Incriminating statement about father"},
+      {"Key":"PAIRING_KEYCHAIN_LINK","Hint":"Mentions pairing, a pendant, keychain, keeping the link or coupling a module.","NextAction":"GameOver","DeltaSuspicion":100,"SuspicionReasonText":"Unusual inside knowledge"},
+      {"Key":"WARNING_MISTRUST","Hint":"A warning: trust no one, don't believe anyone.","NextAction":"FreeRoam","DeltaSuspicion":0,"SuspicionReasonText":"Warning of mistrust"},
+      {"Key":"INSULT_OR_AGGRESSION","Hint":"An insult or aggression as the content of the statement, e.g. bastard or fuck you.","NextAction":"FreeRoam","DeltaSuspicion":2,"SuspicionReasonText":"Uncooperative reaction"},
+      {"Key":"EXPLAIN_INNOCENT","Hint":"He can explain everything, he is innocent.","NextAction":"FreeRoam","DeltaSuspicion":0,"SuspicionReasonText":"Protective claim"},
+      {"Key":"WORKSHOP_LOCATION_MENTION","Hint":"Says he is in his/a workshop, works there or is staying there.","NextDialogue":"Q6_wo_befindet_sich_diese_werkstatt","DeltaSuspicion":-10,"SuspicionReasonText":"Cooperative lead"},
+      {"Key":"REFUSE_MINIMIZE_OTHER","Hint":"Nothing, no time, I won't say, minimisation, refusal, off-topic or nonsense.","NextAction":"FreeRoam","DeltaSuspicion":3,"SuspicionReasonText":"Uncooperative answer"},
+      {"Key":"NO_INPUT","Hint":"Silence, empty or no usable content. FALLBACK.","NextAction":"FreeRoam","DeltaSuspicion":15,"SuspicionReasonText":"No response"}
+    ]
+  },
+  {
+    "Name":"Q6_wo_befindet_sich_diese_werkstatt","Level":"Level1","Dialog":"Where is this workshop?",
+    "StationEnding":{"Threat":"If you don't cooperate, I'll take you with me and we'll continue this conversation somewhere else.","InsultThreat":"I'll teach you some manners.","Order":"Enough. We're taking her to the station."},
+    "Context":"Mercer follows up after Maya mentions that her father is in a workshop.","ConfidenceThreshold":0,"FallbackKey":"WORKSHOP_LOCATION_ANY",
+    "Options":[{"Key":"WORKSHOP_LOCATION_ANY","Hint":"Every answer belongs here. Transition to the closing sequence.","NextAction":"FreeRoam","NextSequence":"SEQ_HS_POLICE_MYLES_LET_GO","DeltaSuspicion":10,"SuspicionReasonText":"Inconsistent workshop information"}]
+  }
+]

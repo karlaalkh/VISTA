@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.voya.ui.components.EmpathyLens
+import com.voya.ui.components.AnimatedEmpathyLens
 import com.voya.ui.theme.VoyaColors
 
 private data class OnboardingPage(
@@ -112,7 +112,7 @@ fun OnboardingScreen(
                 contentAlignment = Alignment.Center
             ) {
                 when (currentPage) {
-                    0 -> EmpathyLens(
+                    0 -> AnimatedEmpathyLens(
                         modifier = Modifier.size(
                             width = 240.dp,
                             height = 150.dp

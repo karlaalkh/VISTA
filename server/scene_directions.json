@@ -1,0 +1,28 @@
+{
+  "opening": "Maya sits rigidly as her family watch in silence. Mercer steps in front of her and leans closer.",
+  "station": "Mercer turns away from Maya and signals to the officers. Her family watch as he gives the order.",
+  "Q1_wo_ist_dein_vater": {
+    "beforeCommand": "Mercer moves closer to Maya, then looks toward the hovering drone.",
+    "beforeScan": "Maya shifts in her seat as the drone glides toward her. A thin scanning light passes across her face.",
+    "afterReport": "Mercer turns his attention back to Maya.",
+    "afterContradiction": "Mercer's eyes narrow. He steps closer, leaving Maya little room to look away."
+  },
+  "Q2_sag_mir_wo_er_ist": {
+    "beforeReply": "Mercer holds Maya's gaze and waits. Behind her, her family remain silent."
+  },
+  "Q3_wann_hattest_du_zuletzt_kontakt": {
+    "beforeCommand": "Mercer glances at Maya's family, then turns toward the drone.",
+    "beforeScan": "The drone swivels toward Maya's smartphone. Its lens flickers to life while Maya watches.",
+    "afterReport": "Mercer looks from the phone back to Maya.",
+    "afterContradiction": "Maya lowers her eyes. Mercer moves into her line of sight, his expression hardening."
+  },
+  "Q4_was_hat_er_gesagt": {
+    "beforeReply": "Maya shifts in her seat. Mercer angles himself between her and her family."
+  },
+  "Q5_wo_befindet_sich_diese_werkstatt": {
+    "beforeReply": "Mercer folds his arms and watches Maya closely."
+  },
+  "Q6_wo_befindet_sich_diese_werkstatt": {
+    "beforeReply": "Mercer straightens, keeping his eyes on Maya."
+  }
+}

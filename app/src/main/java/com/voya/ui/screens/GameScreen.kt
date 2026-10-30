@@ -4,49 +4,93 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.foundation.background
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.voya.data.model.InterrogationState
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.voya.ui.theme.VoyaColors
 
 @Composable
 fun GameScreen(onExit: () -> Unit = {}) {
-    var lineIndex by rememberSaveable { mutableIntStateOf(0) }
-    var awaitingResponse by rememberSaveable { mutableStateOf(false) }
-    val state = InterrogationState(lineIndex, awaitingResponse)
-    val line = state.currentLine
-
-    fun update(next: InterrogationState) {
-        lineIndex = next.lineIndex
-        awaitingResponse = next.awaitingResponse
+    val model: GameViewModel = viewModel()
+    val state by model.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    LaunchedEffect(model) { model.prepareOpening(context.cacheDir) }
+    val exit = {
+        model.reset()
+        onExit()
     }
-
-    BackHandler(onBack = onExit)
-
-    key(lineIndex, awaitingResponse) {
-        when {
-            line == null -> Column(
-                modifier = Modifier.fillMaxSize().padding(24.dp),
+    BackHandler(onBack = exit)
+    key(state.phase, state.introIndex, state.audioFile) {
+        when (state.phase) {
+            GamePhase.INTRO -> {
+                val (audio, text) = model.intro[state.introIndex]
+                FbiDialogueScreen(audioResId = audio, dialogueText = text,
+                    onAudioFinished = model::introFinished, onBack = exit)
+            }
+            GamePhase.RECORDING -> MayaRecordingScreen(
+                questionText = state.question, autoStart = false, onBack = exit,
+                onSilentResponse = { model.answer(null, context.cacheDir) },
+                onRecordingFinished = { model.answer(it, context.cacheDir) }
+            )
+            GamePhase.REPLY -> {
+                val segment = state.reply?.segments?.getOrNull(state.segmentIndex)
+                FbiDialogueScreen(
+                    audioFile = state.audioFile, dialogueText = segment?.text.orEmpty(),
+                    speaker = segment?.speaker ?: "Mercer",
+                    generatedVoice = segment?.kind != "sound_effect", segmentKind = segment?.kind ?: "dialogue",
+                    suspicion = if (state.opening) null else state.suspicion,
+                    onAudioFinished = model::replyFinished, onBack = exit
+                )
+            }
+            else -> Column(
+                modifier = Modifier.fillMaxSize().background(VoyaColors.Background)
+                    .statusBarsPadding().navigationBarsPadding().padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text("Experience complete", style = MaterialTheme.typography.headlineMedium)
+                when (state.phase) {
+                    GamePhase.OPENING, GamePhase.PROCESSING -> {
+                        CircularProgressIndicator()
+                        Spacer(Modifier.height(24.dp))
+                        Text(if (state.opening) "Preparing the scene..." else "Mercer is considering your answer...", color = VoyaColors.TextPrimary,
+                            textAlign = TextAlign.Center)
+                    }
+                    GamePhase.ERROR -> {
+                        Text(state.error ?: "Could not process your answer.", color = VoyaColors.TextPrimary,
+                            textAlign = TextAlign.Center)
+                        Spacer(Modifier.height(16.dp))
+                        Button(onClick = { model.retry(context.cacheDir) }) {
+                            Text(if (state.opening) "Retry narration" else "Retry answer")
+                        }
+                        if (!state.opening) TextButton(onClick = model::recordAgain) { Text("Record again") }
+                    }
+                    GamePhase.COMPLETE -> {
+                        Text(when (state.reply?.action) {
+                            "GameOver" -> "Game over"
+                            "TakeToStation" -> "Taken to the station"
+                            else -> "Interrogation complete"
+                        },
+                            style = MaterialTheme.typography.headlineMedium, color = VoyaColors.TextPrimary)
+                        Spacer(Modifier.height(12.dp))
+                        if (state.reply?.action == "TakeToStation") {
+                            Text("Mercer has ordered Maya's transfer to the police station.",
+                                color = VoyaColors.TextSecondary, textAlign = TextAlign.Center)
+                            Spacer(Modifier.height(12.dp))
+                        }
+                        Text("Suspicion: ${state.suspicion}/100", color = VoyaColors.Gold)
+                        Text(state.reply?.reason.orEmpty(), color = VoyaColors.TextSecondary,
+                            textAlign = TextAlign.Center)
+                    }
+                    else -> Unit
+                }
                 Spacer(Modifier.height(24.dp))
-                Button(onClick = onExit) { Text("Back to story") }
+                TextButton(onClick = exit) { Text("Back to story") }
             }
-            awaitingResponse && line.expectsResponse -> MayaRecordingScreen(
-                questionText = line.caption,
-                autoStart = true,
-                onBack = onExit,
-                onRecordingFinished = { update(state.responseRecorded()) }
-            )
-            else -> FbiDialogueScreen(
-                audioResId = line.audioResId,
-                dialogueText = line.caption,
-                onAudioFinished = { update(state.audioFinished()) },
-                onBack = onExit
-            )
         }
     }
 }

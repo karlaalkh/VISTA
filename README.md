@@ -1,5 +1,7 @@
 # VOYA
 
+Interactive audio experience for EIT Culture & Creativity. The game now interprets the player's spoken answers as Maya and generates English replies voiced as Mercer. See [AI dialogue setup](server/README.md) for server credentials, emulator/device connections, dialogue rules and verification.
+
 Kotlin Android starter using Jetpack Compose, Material 3, and MVVM. Package/application ID: `com.example.voya`. Minimum Android version: Android 8.0 (API 26).
 
 ## Open and run

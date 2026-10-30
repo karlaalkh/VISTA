@@ -1,0 +1,56 @@
+[
+  {
+    "Name":"HSGuard_entry_attempt_1","Level":"Level1","Speaker":"Security guard",
+    "GameOverSequence":"@GuardGameOver","IntroSequence":"@GuardEntryIntro",
+    "Context":"Hallway outside the open study. A security guard blocks entry. Maya has her bag. She needs a plausible reason to briefly retrieve a specific object from the study.",
+    "Dialog":"No one is allowed in here. What do you want?","ConfidenceThreshold":0.55,"FallbackKey":"BAD_EXCUSE",
+    "Options":[
+      {"Key":"NEED_OBJECT","Hint":"A plausible intention to retrieve, take or find a specific object from the study: medicine, homework notebook, schoolbook, book, charger, phone, glasses or tablets. Extract object as a short English noun phrase including a possessive if appropriate.","NextAction":"FreeRoam","SequenceDefault":"@GuardNeedObjectAccepted","SequenceInsult":"@GuardNeedObjectAcceptedInsult","NextSequence":"@GuardEnterStudy","ClosingLine":"Be quick about it.","ExpectedSlots":[{"Key":"object","SentenceTemplate":"[calm] I hope you FOUND {value_reference}.","PlaybackTiming":"OnStudyExit","RewriteContext":"A brief closing remark as the guard lets Maya out. Keep [calm] unchanged at the start and FOUND uppercase.","RewriteExamples":[{"ExampleOutput":"[calm] I hope you FOUND your medicine."},{"ExampleOutput":"[calm] I hope you FOUND your homework notebook."}]}],"DeltaSuspicion":0,"SuspicionReasonText":"","CompletionStateActions":{"WorldBoolActions":[{"StateId":"SV_HS_GUARD_PERMISSION_GRANTED","Value":true},{"StateId":"SV_HS_PLAYER_IN_STUDY","Value":true}],"ObjectiveStatusActions":[{"ObjectiveId":"OBJ_HS_GET_EVIDENCE","Status":"Active"}]}},
+      {"Key":"SELF_REVEAL","Hint":"Claims to be the father, control Maya, use override technology, or inhabit someone else's body.","NextAction":"GameOver","SequenceDefault":"@GuardSelfReveal","SequenceInsult":"@GuardSelfRevealInsult","DeltaSuspicion":100,"SuspicionReasonText":"Identity breach detected"},
+      {"Key":"NOTHING","Hint":"Explicitly wants nothing, needs nothing, wants to leave, never mind, it is sorted. Do not use for a specific object-retrieval excuse.","NextAction":"FreeRoam","ClosingLine":"Then move along.","DeltaSuspicion":0,"SuspicionReasonText":"","CompletionStateActions":{"WorldBoolActions":[{"StateId":"SV_HS_GUARD_BAD_EXCUSE_1","Value":true}]}},
+      {"Key":"BAD_EXCUSE","Hint":"No plausible retrieval excuse: refusal, counterquestion, just looking, argument, nonsense, off-topic, insults or no specific reason. Explicitly wanting nothing belongs to NOTHING. FALLBACK.","NextAction":"FreeRoam","SequenceDefault":"@GuardBadExcuse","SequenceInsult":"@GuardBadExcuseInsult","ClosingLine":"You cannot come in without a reason.","DeltaSuspicion":0,"SuspicionReasonText":"","CompletionStateActions":{"WorldBoolActions":[{"StateId":"SV_HS_GUARD_BAD_EXCUSE_1","Value":true}]}}
+    ]
+  },
+  {
+    "Name":"HSGuard_no_bag","Level":"Level1","Speaker":"Security guard",
+    "GameOverSequence":"@GuardGameOver","IntroSequence":"@GuardEntryIntro",
+    "Context":"Hallway outside the study. Maya does not have her bag. A plausible excuse to retrieve an object can convince the guard, but she must fetch her bag first. Her own bag is in her bedroom and is not a plausible study-retrieval excuse.",
+    "Dialog":"Stop. No one is allowed in here. What do you want?","ConfidenceThreshold":0.55,"FallbackKey":"BAD_EXCUSE","OptionsSource":"HSGuard_entry_attempt_1",
+    "OptionOverrides":{
+      "NEED_OBJECT":{"NextSequence":"@GuardFetchBag","ClosingLine":"Get your bag first.","CompletionStateActions":{"WorldBoolActions":[{"StateId":"SV_HS_GUARD_PERMISSION_GRANTED","Value":true}],"ObjectiveStatusActions":[{"ObjectiveId":"OBJ_HS_GET_BAG","Status":"Active"}]}}
+    },
+    "AdditionalOptions":[{"Key":"GET_BAG_DIRECT","Hint":"Directly wants to retrieve her own bag, backpack or schoolbag. The guard knows it is in Maya's bedroom, so this is not a plausible study excuse. Takes priority over NEED_OBJECT for her bag.","NextAction":"FreeRoam","ClosingLine":"Your bag is in your room.","DeltaSuspicion":0,"SuspicionReasonText":"","CompletionStateActions":{"WorldBoolActions":[{"StateId":"SV_HS_GUARD_BAD_EXCUSE_1","Value":true}]}}]
+  },
+  {
+    "Name":"HSGuard_entry_attempt_2","Level":"Level1","Speaker":"Security guard",
+    "GameOverSequence":"@GuardGameOver","IntroSequence":"@GuardEntryAttempt2Intro",
+    "Context":"The guard has already rejected one bad excuse. Maya has her bag. This is her last chance to give a plausible reason to retrieve a specific object from the study.",
+    "Dialog":"Well? What do you need in there?","ConfidenceThreshold":0.55,"FallbackKey":"BAD_EXCUSE_FINAL","OptionsSource":"HSGuard_entry_attempt_1",
+    "OptionOverrides":{
+      "NOTHING":{"NextSequence":"@GuardMissedEvidenceRegret","CompletionStateActions":{"WorldBoolActions":[{"StateId":"SV_HS_GUARD_BAD_EXCUSE_2","Value":true}],"ObjectiveStatusActions":[{"ObjectiveId":"OBJ_HS_GET_EVIDENCE","Status":"Failed"}]}},
+      "BAD_EXCUSE":{"Key":"BAD_EXCUSE_FINAL","SequenceDefault":"@GuardBadExcuseFinal","SequenceInsult":"@GuardBadExcuseFinalInsult","NextSequence":"@GuardMissedEvidenceRegret","ClosingLine":"That is enough. Move along.","CompletionStateActions":{"WorldBoolActions":[{"StateId":"SV_HS_GUARD_BAD_EXCUSE_2","Value":true}],"ObjectiveStatusActions":[{"ObjectiveId":"OBJ_HS_GET_EVIDENCE","Status":"Failed"}]}}
+    }
+  },
+  {
+    "Name":"HSGuard_no_bag_attempt_2","Level":"Level1","Speaker":"Security guard",
+    "GameOverSequence":"@GuardGameOver","IntroSequence":"@GuardEntryAttempt2Intro",
+    "Context":"The guard already rejected one bad excuse. Maya still has no bag. This is her last chance to give a plausible study-retrieval excuse. Her bag is in her bedroom.",
+    "Dialog":"You again. What do you need in there?","ConfidenceThreshold":0.55,"FallbackKey":"BAD_EXCUSE_FINAL","OptionsSource":"HSGuard_no_bag",
+    "OptionOverrides":{
+      "NOTHING":{"NextSequence":"@GuardMissedEvidenceRegret","CompletionStateActions":{"WorldBoolActions":[{"StateId":"SV_HS_GUARD_BAD_EXCUSE_2","Value":true}],"ObjectiveStatusActions":[{"ObjectiveId":"OBJ_HS_GET_EVIDENCE","Status":"Failed"}]}},
+      "GET_BAG_DIRECT":{"NextSequence":"@GuardMissedEvidenceRegret","CompletionStateActions":{"WorldBoolActions":[{"StateId":"SV_HS_GUARD_BAD_EXCUSE_2","Value":true}],"ObjectiveStatusActions":[{"ObjectiveId":"OBJ_HS_GET_EVIDENCE","Status":"Failed"}]}},
+      "BAD_EXCUSE":{"Key":"BAD_EXCUSE_FINAL","SequenceDefault":"@GuardBadExcuseFinal","SequenceInsult":"@GuardBadExcuseFinalInsult","NextSequence":"@GuardMissedEvidenceRegret","ClosingLine":"That is enough. Move along.","CompletionStateActions":{"WorldBoolActions":[{"StateId":"SV_HS_GUARD_BAD_EXCUSE_2","Value":true}],"ObjectiveStatusActions":[{"ObjectiveId":"OBJ_HS_GET_EVIDENCE","Status":"Failed"}]}}
+    }
+  },
+  {
+    "Name":"HSGuard_exit_without_evidence","Level":"Level1","Speaker":"Security guard",
+    "GameOverSequence":"LS_HSGuard_exit_without_evidence_gameover",
+    "Context":"Maya is inside the study. The guard blocks the exit and asks if she is finished. Leaving without evidence permanently loses the evidence opportunity.",
+    "Dialog":"Are you finished?","ConfidenceThreshold":0.55,"FallbackKey":"NONSENSE_OR_REFUSE",
+    "Options":[
+      {"Key":"YES_LEAVE_WITHOUT_EVIDENCE","Hint":"Confirms being finished or wanting to leave: yes, found it, got it, done, I am leaving.","NextAction":"FreeRoam","ClosingLine":"All right. Out you go.","NextSequence":"@GuardMissedEvidenceRegret","DeltaSuspicion":0,"SuspicionReasonText":"","CompletionStateActions":{"WorldBoolActions":[{"StateId":"SV_HS_GUARD_EJECTED","Value":true},{"StateId":"SV_HS_PLAYER_IN_STUDY","Value":false}],"ObjectiveStatusActions":[{"ObjectiveId":"OBJ_HS_GET_EVIDENCE","Status":"Failed"}]}},
+      {"Key":"NO_KEEP_SEARCHING","Hint":"Not finished, no, not yet, wait, still looking.","NextAction":"FreeRoam","ClosingLine":"Make it quick.","DeltaSuspicion":0,"SuspicionReasonText":""},
+      {"Key":"NONSENSE_OR_REFUSE","Hint":"Unclear, off-topic, insulting, refusal or no answer. FALLBACK.","NextAction":"FreeRoam","ClosingLine":"I am waiting.","DeltaSuspicion":0,"SuspicionReasonText":""}
+    ]
+  }
+]

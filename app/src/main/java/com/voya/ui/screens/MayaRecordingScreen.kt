@@ -5,6 +5,8 @@ import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -35,6 +37,7 @@ fun MayaRecordingScreen(
     questionText: String? = null,
     autoStart: Boolean = false,
     onBack: (() -> Unit)? = null,
+    onSilentResponse: (() -> Unit)? = null,
     onRecordingFinished: (File) -> Unit
 ) {
     val context = LocalContext.current
@@ -114,6 +117,7 @@ fun MayaRecordingScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
+                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 24.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -125,6 +129,9 @@ fun MayaRecordingScreen(
             )
 
             Spacer(Modifier.height(14.dp))
+            Text("Answer as Maya in English. Your recording is sent for AI processing.",
+                color = VoyaColors.TextSecondary, fontSize = 12.sp, textAlign = TextAlign.Center)
+            Spacer(Modifier.height(8.dp))
 
             questionText?.let {
                 Text(it, color = VoyaColors.TextSecondary, fontSize = 16.sp,
@@ -148,8 +155,19 @@ fun MayaRecordingScreen(
             AudioWaveform(
                 active = isRecording
             )
+        }
 
-            Spacer(Modifier.height(16.dp))
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = if (isRecording) "Tap to stop recording" else "Tap to speak",
+                color = VoyaColors.TextPrimary,
+                fontSize = 13.sp,
+                textAlign = TextAlign.Center
+            )
+            Spacer(Modifier.height(8.dp))
 
             Button(
                 onClick = {
@@ -206,18 +224,6 @@ fun MayaRecordingScreen(
                 )
             }
 
-            Spacer(Modifier.height(12.dp))
-
-            Text(
-                text = if (isRecording) {
-                    "Tap to stop recording"
-                } else {
-                    "Tap to speak"
-                },
-                color = VoyaColors.TextSecondary,
-                fontSize = 13.sp
-            )
-
             errorMessage?.let { message ->
                 Spacer(Modifier.height(10.dp))
                 Text(
@@ -226,6 +232,11 @@ fun MayaRecordingScreen(
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center
                 )
+            }
+            if (!isRecording && onSilentResponse != null) {
+                TextButton(onClick = onSilentResponse) { Text("Remain silent") }
+            } else if (onSilentResponse != null) {
+                Spacer(Modifier.height(48.dp))
             }
         }
     }

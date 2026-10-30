@@ -14,6 +14,7 @@ import com.voya.ui.screens.GameScreen
 import com.voya.ui.theme.VoyaTheme
 import kotlinx.coroutines.launch
 import com.voya.ui.screens.StoryDetailsScreen
+import com.voya.ui.screens.StoryIntroScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -72,11 +73,16 @@ class MainActivity : ComponentActivity() {
 
                             "details" -> StoryDetailsScreen(
                                 onPlay = {
-                                    currentScreen = "game"
+                                    currentScreen = "intro"
                                 },
                                 onBack = {
                                     currentScreen = "home"
                                 }
+                            )
+
+                            "intro" -> StoryIntroScreen(
+                                onStartDialogue = { currentScreen = "game" },
+                                onBack = { currentScreen = "details" }
                             )
 
                             "game" -> GameScreen(
